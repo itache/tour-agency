@@ -1,0 +1,272 @@
+<%@page import="me.itache.helpers.CountryManager" %>
+
+<form action="/tour/list" id="form" class="col s10 offset-s1">
+    <div class="row" style="margin: 0px;">
+        <div class="input-field col s3">
+            <!--Sort-->
+            <select id="sort" class="browser-default" name="sort" onchange="$(this.form).trigger('submit')">
+                <option value="title"
+                        <c:if test="${empty param.sort or param.sort == 'title'}">
+                            selected
+                        </c:if>>
+                    <fmt:message key="tour-list.sort.by_name"/>
+                </option>
+                <option value="price"
+                        <c:if test="${param.sort == 'price'}">
+                            selected
+                        </c:if>>
+                    <fmt:message key="tour-list.sort.by_price"/>
+                </option>
+                <option value="start"
+                        <c:if test="${param.sort == 'start'}">
+                            selected
+                        </c:if>>
+                    <fmt:message key="tour-list.sort.by_start_date"/>
+                </option>
+                <option value="duration"
+                        <c:if test="${param.sort == 'duration'}">
+                            selected
+                        </c:if>>
+                    <fmt:message key="tour-list.sort.by_duration"/>
+                </option>
+            </select>
+        </div>
+        <!--Order-->
+        <div class="input-field col s2">
+            <button class="waves-effect waves-teal btn-flat" type="submit" name="order"
+                    <c:choose>
+                        <c:when test="${empty param.order or param.order == 'asc'}">
+                            value="desc"
+                        </c:when>
+                        <c:otherwise>
+                            value="asc"
+                        </c:otherwise>
+                    </c:choose>>
+                <c:choose>
+                    <c:when test="${empty param.order or param.order == 'asc'}">
+                        <i class="material-icons">arrow_upward</i>
+                    </c:when>
+                    <c:otherwise>
+                        <i class="material-icons">arrow_downward</i>
+                    </c:otherwise>
+                </c:choose>
+            </button>
+        </div>
+        <!--Search-->
+        <div class="input-field col offset-s2 s3">
+            <input id="search" type="search" name="search" style="margin: 0px"
+            <c:if test="${not empty param.search}"> value="<c:out value="${param.search}"/>"
+            </c:if> >
+            <i class="material-icons" id="clear">close</i>
+            <label for="search"><i class="material-icons">search</i></label>
+        </div>
+        <div class="input-field col s2">
+            <button class="waves-effect waves-teal btn-flat" type="submit">
+                <fmt:message key="tour-list.button.find"/>
+            </button>
+        </div>
+    </div>
+    <!--Advanced search-->
+    <c:if test="${not empty param.min_price or not empty param.max_price or not empty param.type or not empty param.hotelLevel
+     or not empty param.countryCode or not empty param.from_date or not empty param.to_date or not empty param.persons_from or not empty param.persons_to
+     or not empty param.duration_from or not empty param.duration_to}">
+        <c:set value="active" var="active"/>
+    </c:if>
+    <ul class="collapsible" data-collapsible="accordion" style="display: inline; border: none; margin: 0px">
+        <li>
+            <div class="collapsible-header right-align grey-text ${active}" style="font-style: italic"><fmt:message
+                    key="tour-list.adv_search"/></div>
+            <div class="row collapsible-body" style="margin-bottom: 0px;">
+                <!--Type-->
+                <div class="input-field col s3">
+                    <select name="type">
+                        <option value=""
+                                <c:if test="${empty param.type}">
+                                    selected
+                                </c:if>>
+                            <fmt:message key="tour.type.any"/>
+                        </option>
+                        <option value="shopping"
+                                <c:if test="${param.type == 'shopping'}">
+                                    selected
+                                </c:if>>
+                            <fmt:message key="tour.type.shopping"/>
+                        </option>
+                        <option value="excursion"
+                                <c:if test="${param.type == 'excursion'}">
+                                    selected
+                                </c:if>>
+                            <fmt:message key="tour.type.excursion"/>
+                        </option>
+                        <option value="vacation"
+                                <c:if test="${param.type == 'vacation'}">
+                                    selected
+                                </c:if>>
+                            <fmt:message key="tour.type.vacation"/>
+                        </option>
+                    </select>
+                    <label><fmt:message key="tour.type.label"/> </label>
+                </div>
+
+                <!--Country-->
+                <div class="input-field col s4 offset-s1">
+                    <select name="countryCode">
+                        <option value=""
+                            <c:if test="${empty param.country}">
+                                selected
+                            </c:if>>
+                            <fmt:message key="tour.country.choose"/></option>
+                        </option>
+                        <c:forEach items="${CountryManager.getAvailableCountries(locale)}" var="country">
+                            <option value="${country.value}"
+                            <c:if test="${country.value == param.countryCode}">
+                                    selected
+                            </c:if>>
+                                    ${country.key}
+                            </option>
+                        </c:forEach>
+                    </select>
+                    <label><fmt:message key="tour.country.label"/> </label>
+                </div>
+                <!--Hotel level-->
+                <div class="input-field col s3 offset-s1">
+
+                    <select name="hotelLevel">
+                        <option value=""
+                                <c:if test="${empty param.hotelLevel}">
+                                    selected
+                                </c:if>>
+                            <fmt:message key="tour.hotel_level.any"/>
+                        </option>
+                        <option value="three_stars"
+                                <c:if test="${param.hotelLevel == 'three_stars'}">
+                                    selected
+                                </c:if>>
+                            3&#x2605;
+                        </option>
+                        <option value="four_stars"
+                                <c:if test="${param.hotelLevel  == 'four_stars'}">
+                                    selected
+                                </c:if>>
+                            4&#x2605;
+                        </option>
+                        <option value="five_stars"
+                                <c:if test="${param.hotelLevel  == 'five_stars'}">
+                                    selected
+                                </c:if>>
+                            5&#x2605;
+                        </option>
+                    </select>
+                    <label><fmt:message key="tour.hotel_level.label"/></label>
+                </div>
+                <!--Price-->
+                <div class="col s4">
+                    <div class="col s4" style="padding-top: 25px; text-align: right;">
+                        <i class="material-icons" style="vertical-align: bottom !important;">attach_money</i>
+                        <fmt:message key="tour.price.label"/>:
+                    </div>
+                    <div class="input-field col s4">
+                        <input id="min_price" type="number" name="min_price"
+                        <c:if test="${not empty param.min_price}"> value="<c:out value="${param.min_price}"/>"
+                        </c:if> >
+                        <label for="min_price"><fmt:message key="tour-list.min_price"/></label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input id="max_price" type="number" name="max_price"
+                        <c:if test="${not empty param.max_price}"> value="<c:out value="${param.max_price}"/>"
+                        </c:if> >
+                        <label for="max_price"><fmt:message key="tour-list.max_price"/></label>
+                    </div>
+                </div>
+
+                <!--Persons-->
+                <div class="col s5">
+                    <div class="col s5 offset-s1" style="padding-top: 25px; text-align: right;">
+                        <i class="material-icons" style="vertical-align: bottom !important;">people</i>
+                        <fmt:message key="tour.persons.label"/>:
+                    </div>
+                    <div class="input-field col s3">
+                        <input id="persons_from" type="number" name="persons_from" min="1"
+                        <c:if test="${not empty param.persons_from}"> value="<c:out value="${param.persons_from}"/>"
+                        </c:if> >
+                        <label for="persons_from"><fmt:message key="tour-list.persons_from"/></label>
+                    </div>
+                    <div class="input-field col s3">
+                        <input id="persons_to" type="number" name="persons_to"
+                        <c:if test="${not empty param.persons_to}"> value="<c:out value="${param.persons_to}"/>"
+                        </c:if> >
+                        <label for="persons_to"><fmt:message key="tour-list.persons_to"/></label>
+                    </div>
+                </div>
+                <!--Start date-->
+                <div class="col s5">
+                    <div class="col s5 offset-s1" style="padding-top: 25px; text-align: right;">
+                        <i class="material-icons" style="vertical-align: bottom !important;">event</i>
+                        <fmt:message key="tour.start.label"/>:
+                    </div>
+                    <div class="input-field col s3">
+                        <input id="from_date" type="date" name="from_date" class="datepicker"
+                        <c:if test="${not empty param.from_date}"> value="<c:out value="${param.from_date}"/>"
+                        </c:if> >
+                        <label for="from_date"><fmt:message key="tour-list.from_date"/> </label>
+                    </div>
+                    <div class="input-field col s3">
+                        <input id="to_date" type="date" name="to_date" class="datepicker"
+                        <c:if test="${not empty param.to_date}"> value="<c:out value="${param.to_date}"/>"
+                        </c:if> >
+                        <label for="to_date"><fmt:message key="tour-list.to_date"/></label>
+                    </div>
+                </div>
+                <!--Duration-->
+                <div class="col s5">
+                    <div class="col s6" style="padding-top: 25px; text-align: right;">
+                        <i class="material-icons" style="vertical-align: bottom !important;">schedule</i>
+                        <fmt:message key="tour.duration.label"/>:
+                    </div>
+                <div class="input-field col s3">
+                    <input id="duration_from" type="number" name="duration_from"
+                    <c:if test="${not empty param.duration_from}"> value="<c:out value="${param.duration_from}"/>"
+                    </c:if> >
+                    <label for="duration_from"><fmt:message key="tour-list.duration.from"/></label>
+                </div>
+                <div class="input-field col s3">
+                    <input id="duration_to" type="number" name="duration_to"
+                    <c:if test="${not empty param.duration_to}"> value="<c:out value="${param.duration_to}"/>"
+                    </c:if> >
+                    <label for="duration_to"><fmt:message key="tour-list.duration.to"/></label>
+                </div>
+                </div>
+                <div class="input-field col s2">
+                    <a class="waves-effect waves-teal btn yellow darken-2" href="/tour/list">
+                        <fmt:message key="tour-list.button.reset"/>
+                    </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</form>
+<c:if test="${locale != 'en'}">
+    <script src="/js/datepicker_${locale}.js"></script>
+</c:if>
+<!-- Empty parameters filter -->
+<script>
+
+    $('#form').on('submit', function () {
+        $(':input', this).filter(function () {
+            return this.value.length == 0;
+        }).prop('disabled', true);
+    });
+
+    $("#clear").click(function () {
+        $("#search").val('');
+        var label = $("label[for='" + $("#search").attr('id') + "']");
+        label.removeClass('active');
+    });
+
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year
+        format: 'yyyy-mm-dd'
+    });
+
+</script>

@@ -1,0 +1,30 @@
+<%@page import="com.captcha.botdetect.web.servlet.Captcha"%>
+<form action="enter" method="post" class="col s12" id="sing_up">
+    <input type="hidden" name="action" value="sing_up">
+    <div class="row input-field">
+        <fmt:message key="enter.login.label" var="new_login_label"/>
+        <t:input type="text" value="${param.new_login}" name="new_login" label="${new_login_label}" err="${errors.new_login}"/>
+    </div>
+    <div class="row input-field">
+        <fmt:message key="enter.email.label" var="email_label"/>
+        <t:input type="email" value="${param.email}" name="email" label="${email_label}" err="${errors.email}"/>
+    </div>
+    <div class="row input-field">
+        <fmt:message key="enter.password.label" var="password_label"/>
+        <t:input type="password" value="" name="new_password" label="${password_label}" err="${errors.new_password}"/>
+    </div>
+    <div class="row input-field">
+        <fmt:message key="enter.pass_conf.label" var="pass_conf_label"/>
+        <t:input type="password" value="" name="pass_conf" label="${pass_conf_label}" err="${errors.pass_conf}"/>
+    </div>
+    ${captcha.html}
+    <div class="row input-field">
+        <fmt:message key="enter.captcha.label" var="captcha_label"/>
+        <t:input type="text" value="" name="captcha" label="${captcha_label}" err="${errors.captcha}"/>
+    </div>
+    <div class="row center-align">
+        <button class="btn waves-effect waves-light lime" type="submit" name="action">
+            <fmt:message key="enter.sing_up"/>
+        </button>
+    </div>
+</form>

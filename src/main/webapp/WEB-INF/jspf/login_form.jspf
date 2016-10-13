@@ -1,0 +1,26 @@
+<form action="enter" method="post" class="col s12" id="sing_in">
+    <input type="hidden" name="action" value="login">
+    <c:if test="${not empty is_login_failed}">
+        <p class="red-text text-darken-1"><fmt:message key="enter.login.error"/></p>
+    </c:if>
+    <c:if test="${not empty not_enabled}">
+        <p class="red-text text-darken-1"><fmt:message key="enter.login.not_enabled"/></p>
+        <a href="/user/resend_token"><fmt:message key="enter.login.resend_token"/></a>
+    </c:if>
+    <div class="row input-field">
+        <fmt:message key="enter.login.label" var="login_label"/>
+        <t:input type="text" value="${param.login}" name="login" label="${login_label}" err="${errors.login}"/>
+    </div>
+    <div class="row input-field">
+        <fmt:message key="enter.password.label" var="password_label"/>
+        <t:input type="password" value="" name="password" label="${password_label}" err="${errors.password}"/>
+        <a href="/user/reset_password" class="right" style="margin-top: -10px">
+            <fmt:message key="enter.forget_password"/>
+        </a>
+    </div>
+    <div class="row center-align">
+        <button class="btn waves-effect waves-light yellow accent-4" type="submit" name="action">
+            <fmt:message key="enter.sing_in"/>
+        </button>
+    </div>
+</form>

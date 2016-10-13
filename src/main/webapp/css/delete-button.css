@@ -1,0 +1,11 @@
+.btn-delete{
+    position: absolute;
+    right: 5px;
+    top:0px;
+    color: gray;
+}
+
+.btn-delete:hover{
+    color: red;
+    cursor: pointer !important;
+}

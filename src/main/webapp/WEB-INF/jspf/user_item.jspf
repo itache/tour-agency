@@ -1,0 +1,30 @@
+<tr
+<c:choose>
+    <c:when test="${user.blocked}">
+    class="deep-orange lighten-4"
+    </c:when>
+    <c:otherwise>
+    class="light-green lighten-5"
+    </c:otherwise>
+</c:choose>
+>
+    <td>${user.login}</td>
+    <td>${user.email}</td>
+    <td><fmt:message key="user.role.${fn:toLowerCase(user.role)}"/></td>
+    <td>
+        <c:choose>
+            <c:when test="${user.blocked}">
+                <a href="/user/unblock?id=${user.id}" class=" btn-floating green tooltipped"
+                   data-position="right" data-delay="50" data-tooltip="Unblock">
+                    <i class="material-icons white-text">done</i>
+                </a>
+            </c:when>
+            <c:otherwise>
+                <a href="/user/block?id=${user.id}" class="btn-floating btn-flat red tooltipped"
+                   data-position="right" data-delay="50" data-tooltip="Block">
+                    <i class="material-icons white-text">block</i>
+                </a>
+            </c:otherwise>
+        </c:choose>
+    </td>
+</tr>

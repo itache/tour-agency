@@ -1,0 +1,26 @@
+
+.header {
+    height: 110px;
+    line-height: 110px;
+}
+
+.header i, nav [class^="mdi-"], .header [class*="mdi-"], .header i.material-icons {
+    height: 110px;
+    line-height: 110px;
+}
+
+.header .button-collapse i {
+    height: 110px;
+    line-height: 110px;
+}
+
+.header .brand-logo {
+    font-size: 1.6rem;
+}
+
+@media only screen and (min-width: 601px) {
+    .header, .header .nav-wrapper i, nav a.button-collapse, .header a.button-collapse i {
+        height: 110px;
+        line-height: 110px;
+    }
+}

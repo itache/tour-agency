@@ -1,0 +1,101 @@
+<li>
+    <c:set var="tour" value="${tour_bean.tour}"/>
+
+    <div class="card horizontal ${tour.hot ? 'yellow lighten-4' :''}">
+        <!--Image-->
+        <div class="card-image">
+            <a href="/tour/view?id=${tour.id}"> <img src="/images/tour_${tour.id}_thumb.jpg" height="270px"></a>
+            <!--Hot icon-->
+            <c:if test="${tour.hot}">
+                        <span class="card-title hot deep-orange-text text-accent-3">
+                            <i class="material-icons medium" style="vertical-align: bottom !important;">whatshot</i>
+                            <fmt:message key="tour.hot"/>
+                        </span>
+            </c:if>
+        </div>
+        <!--Tour info-->
+        <div class="card-stacked">
+            <div class="card-content">
+                <!--Delete button-->
+                <c:if test="${user.role == 'ADMIN'}">
+                    <a class="btn-delete" data-id="${tour.id}">
+                        <i class="material-icons">clear</i>
+                    </a>
+                </c:if>
+                <!--Title-->
+                <span class="card-title col s12">${tour_bean.getDescription(locale).title}
+
+                </span>
+                <div class="col s5">
+                    <!--Price-->
+                    <p><fmt:message key="tour.price.label"/> : ${tour.price} $</p>
+                    <!--Discount-->
+                    <c:if test="${user.role == 'ADMIN' or user.role == 'MANAGER'}">
+                        <p><fmt:message key="tour.discountStep.label"/>:
+                                ${tour.discountStep} %</p>
+                        <p><fmt:message key="tour.maxDiscount.label"/>:
+                                ${tour.maxDiscount} %</p>
+                    </c:if>
+                    <!--Type-->
+                    <p><fmt:message key="tour.type.label"/>: <fmt:message
+                            key="tour.type.${fn:toLowerCase(tour.type)}"/></p>
+                    <!--Hotel level-->
+                    <p><fmt:message key="tour.hotel_level.label"/> :
+                        <fmt:message key="tour-item.hotel_level.${fn:toLowerCase(tour.hotelLevel)}"/>
+                    </p>
+
+                </div>
+                <div class="col s5">
+                    <!--Country-->
+                    <p>
+                        <i class="material-icons" style="vertical-align: bottom !important;">place</i> :
+                        ${tour_bean.country}
+                    </p>
+                    <!--Persons-->
+                    <p>
+                        <i class="material-icons" style="vertical-align: bottom !important;">people</i> :
+                        ${tour.persons}
+                    </p>
+
+                    <!--Date-->
+                    <p>
+                        <i class="material-icons" style="vertical-align: bottom !important;">date_range</i> :
+                        <fmt:formatDate value="${tour.start}" type="date"/>
+                        <c:if test="${tour_bean.outdated}">
+                            <span class="red-text text-darken-1"><fmt:message key="tour-item.outdated"/></span>
+                        </c:if>
+                    </p>
+                    <!--Duration-->
+                    <p>
+                        <i class="material-icons" style="vertical-align: bottom !important;">schedule</i> :
+                        ${tour.duration} <fmt:message key="tour.duration.days"/>
+                    </p>
+                </div>
+            </div>
+            <div class="card-action">
+                <!--View button-->
+                <a href="/tour/view?id=${tour.id}"><fmt:message key="tour-item.button.view"/> </a>
+                <c:choose>
+                    <%--Order button--%>
+                    <c:when test="${user.role == 'CUSTOMER'}">
+                        <a href="/order/new?tour_id=${tour.id}">
+                            <i class="material-icons" style="vertical-align: bottom !important;">add_shopping_cart</i><fmt:message key="tour-item.button.order"/></a>
+                    </c:when>
+                    <c:when test="${user.role == 'MANAGER'}">
+                        <%--Change status button--%>
+                        <c:set var="uri" value="${tour.hot ? 'regular' : 'hot'}"/>
+                        <a href="/tour/set_${uri}?id=${tour.id}"><fmt:message key="tour-item.button.set_${uri}"/></a>
+                        <%--Edit discount button--%>
+                        <a href="/tour/edit?id=${tour.id}"><fmt:message key="tour-item.button.edit"/></a>
+                    </c:when>
+                    <%--Edit button--%>
+                    <c:when test="${user.role == 'ADMIN'}">
+                        <a href="/tour/edit?id=${tour.id}"><fmt:message key="tour-item.button.edit"/></a>
+                        <a href="/tour/update_image?id=${tour.id}"><fmt:message
+                                key="tour-item.button.update_image"/></a>
+                    </c:when>
+                </c:choose>
+            </div>
+        </div>
+    </div>
+</li>

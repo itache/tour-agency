@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource name="jdbc/DB"
+              auth="Container"
+              type="javax.sql.DataSource"
+              maxTotal="20"
+              maxIdle="5"
+              maxWaitMillis="10000"
+              username="qvdxkjgjqtfydo"
+              password="DPubvtwavlR-PsI8hjOm67Vh1u"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgres://qvdxkjgjqtfydo:DPubvtwavlR-PsI8hjOm67Vh1u@ec2-54-75-233-22.eu-west-1.compute.amazonaws.com:5432/d42vr8i74aqa6t"/>
+    <ResourceLink global="jdbc/DB" name="jdbc/DB" type="javax.sql.DataSource" />
+</Context>

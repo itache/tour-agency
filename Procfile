@@ -1,0 +1,1 @@
+web:    java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --context-xml target/summaryTask4/META-INF/context.xml --port $PORT target/summaryTask4.war

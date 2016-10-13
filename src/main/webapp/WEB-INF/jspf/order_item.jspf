@@ -1,0 +1,40 @@
+<tr>
+    <c:if test="${user.role != 'CUSTOMER'}">
+        <td>${order_bean.customer.login}</td>
+    </c:if>
+    <td><a href="/tour/view?id=${order_bean.tour.id}"> ${order_bean.tour.getDescription(locale).title}</a></td>
+    <td>${order_bean.order.discount}</td>
+    <td>${order_bean.order.price}</td>
+    <c:choose>
+        <c:when test="${user.role == 'CUSTOMER'}">
+            <td><fmt:message key="order.status.${fn:toLowerCase(order_bean.order.status)}"/></td>
+        </c:when>
+        <c:otherwise>
+            <td>
+                <form action="/order/set_status?id=${order_bean.order.id}" method="post">
+                    <select class="browser-default" name="status" onchange="this.form.submit()">
+                        <option value="RESERVED"
+                                <c:if test="${order_bean.order.status == 'RESERVED'}">
+                                    selected
+                                </c:if>>
+                            <fmt:message key="order.status.reserved"/>
+                        </option>
+                        <option value="PAID"
+                                <c:if test="${order_bean.order.status == 'PAID'}">
+                                    selected
+                                </c:if>>
+                            <fmt:message key="order.status.paid"/>
+                        </option>
+                        <option value="CANCELED"
+                                <c:if test="${order_bean.order.status == 'CANCELED'}">
+                                    selected
+                                </c:if>>
+                            <fmt:message key="order.status.canceled"/>
+                        </option>
+                    </select>
+                </form>
+            </td>
+        </c:otherwise>
+    </c:choose>
+    <td><fmt:formatDate value="${order_bean.order.date}" type="both" dateStyle="short" timeStyle="short"/> </td>
+</tr>
